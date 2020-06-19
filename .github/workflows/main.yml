@@ -29,6 +29,7 @@ jobs:
           pip install platformio
 
       - name: compile
+        working-directory: ./espota
         run: pio run
 
       - name: Create Release
