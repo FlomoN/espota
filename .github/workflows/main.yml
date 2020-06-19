@@ -28,7 +28,7 @@ jobs:
         run: cd espota
 
       - name: compile
-        run: platformio run
+        run: pio run
 
       - name: Create Release
         id: create_release
