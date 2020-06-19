@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
+#include <ESP8266httpUpdate.h>
 
 namespace MQTTHelp
 {
@@ -48,6 +49,7 @@ namespace MQTTHelp
     if (strcmp(topic, (std::string("update/") + std::string(clientName)).c_str()) == 0)
     {
       Serial.println("Receiving update...");
+      ESPhttpUpdate.update(otaProvider, 80, (std::string("/bin/") + std::string(clientName) + std::string(".bin")).c_str());
     }
     callback(topic, payload, length);
   }
@@ -87,10 +89,10 @@ namespace MQTTHelp
    **/
   void ping()
   {
-    if (millis() - timer > 10000)
+    if (millis() - timer > 60000)
     {
       timer = millis();
-      client.publish("ping", clientName);
+      client.publish("pinger", clientName);
     }
   }
 
