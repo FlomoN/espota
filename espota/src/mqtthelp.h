@@ -49,7 +49,23 @@ namespace MQTTHelp
     if (strcmp(topic, (std::string("update/") + std::string(clientName)).c_str()) == 0)
     {
       Serial.println("Receiving update...");
-      ESPhttpUpdate.update(otaProvider, 80, (std::string("/bin/") + std::string(clientName) + std::string(".bin")).c_str());
+      t_httpUpdate_return ret = ESPhttpUpdate.update(otaProvider, 80, (std::string("/bin/") + std::string(clientName) + std::string(".bin")).c_str());
+
+      switch (ret)
+      {
+      case HTTP_UPDATE_FAILED:
+        Serial.printf("HTTP_UPDATE_FAILED Error (%d): %s\n", ESPhttpUpdate.getLastError(), ESPhttpUpdate.getLastErrorString().c_str());
+        Serial.print(otaProvider);
+        break;
+
+      case HTTP_UPDATE_NO_UPDATES:
+        Serial.println("HTTP_UPDATE_NO_UPDATES");
+        break;
+
+      case HTTP_UPDATE_OK:
+        Serial.println("HTTP_UPDATE_OK");
+        break;
+      }
     }
     callback(topic, payload, length);
   }
@@ -92,7 +108,7 @@ namespace MQTTHelp
     if (millis() - timer > 60000)
     {
       timer = millis();
-      client.publish("ping", "teeeestomate");
+      client.publish("ping", "teeeest");
     }
   }
 
