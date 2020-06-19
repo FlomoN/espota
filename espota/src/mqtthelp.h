@@ -108,7 +108,7 @@ namespace MQTTHelp
     if (millis() - timer > 60000)
     {
       timer = millis();
-      client.publish("ping", "teeeest");
+      client.publish("ping", "teeeestore");
     }
   }
 
