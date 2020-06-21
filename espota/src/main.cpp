@@ -7,6 +7,7 @@ const char *mqtt_server = "192.168.0.5"; // Address of your MQTT Broker
 const char *clientName = "testbench";    // Name of this device for registering to the broker
 const char *otaProvider = "xxxxxxxx";    // Hostname or IP + Port of your OTA Provider
 
+// Callback for MQTT received messages
 void callback(char *topic, byte *payload, unsigned int length)
 {
   Serial.print("Message arrived [");
@@ -22,10 +23,12 @@ void callback(char *topic, byte *payload, unsigned int length)
 void setup()
 {
   MQTTHelp::channels.push_back("test");
+  // Add your channels to subscribe to here
   MQTTHelp::setup(ssid, password, mqtt_server, clientName, otaProvider, callback);
 }
 
 void loop()
 {
   MQTTHelp::loop();
+  //Put your loop after here, this ensures MQTT and WiFi is connected
 }
