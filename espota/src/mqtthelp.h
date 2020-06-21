@@ -12,6 +12,7 @@ namespace MQTTHelp
   const char *mqtt_server;
   const char *clientName;
   const char *otaProvider;
+  std::vector<char const *> channels;
   std::function<void(char *, uint8_t *, unsigned int)> callback;
 
   int timer = 0;
@@ -97,7 +98,12 @@ namespace MQTTHelp
         // ... and resubscribe
         // client.subscribe("inTopic");
         client.subscribe((std::string("update/") + std::string(clientName)).c_str());
-        client.publish("ping", "hello");
+        for (const char *channel : channels)
+        {
+          client.subscribe(channel);
+        }
+
+        client.publish("hello", clientName);
       }
       else
       {
@@ -118,7 +124,7 @@ namespace MQTTHelp
     if (millis() - timer > 60000)
     {
       timer = millis();
-      client.publish("ping", "teeeestaaaalo");
+      client.publish("ping", clientName);
     }
   }
 

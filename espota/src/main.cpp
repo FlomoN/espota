@@ -21,6 +21,7 @@ void callback(char *topic, byte *payload, unsigned int length)
 
 void setup()
 {
+  MQTTHelp::channels.push_back("test");
   MQTTHelp::setup(ssid, password, mqtt_server, clientName, otaProvider, callback);
 }
 
