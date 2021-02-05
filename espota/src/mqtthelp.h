@@ -3,6 +3,7 @@
 #include <PubSubClient.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
+ADC_MODE(ADC_VCC);
 
 namespace MQTTHelp
 {
@@ -103,7 +104,9 @@ namespace MQTTHelp
           client.subscribe(channel);
         }
 
-        client.publish("hello", clientName);
+        int volt = ESP.getVcc();
+
+        client.publish("hello", (String(clientName) + " " + volt).c_str());
       }
       else
       {
@@ -124,7 +127,9 @@ namespace MQTTHelp
     if (millis() - timer > 60000)
     {
       timer = millis();
-      client.publish("ping", clientName);
+      int volt = ESP.getVcc();
+
+      client.publish("ping", (String(clientName) + " " + volt).c_str());
     }
   }
 
