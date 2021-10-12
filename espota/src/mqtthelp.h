@@ -3,6 +3,8 @@
 #include <PubSubClient.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266httpUpdate.h>
+#include <string>
+
 ADC_MODE(ADC_VCC);
 
 namespace MQTTHelp
